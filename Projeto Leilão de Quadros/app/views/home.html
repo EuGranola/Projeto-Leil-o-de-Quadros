@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block titulo %}Início · Leilão de Quadros{% endblock %}
+
+{% block corpo %}
+<header class="topo">
+  <a class="topo-marca" href="{{ url_for('home') }}">Leilão de Quadros</a>
+  <div class="topo-usuario">
+    <span>{{ usuario.nome }}</span>
+    <form method="post" action="{{ url_for('auth.logout') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <button type="submit" class="botao botao-secundario">Sair</button>
+    </form>
+  </div>
+</header>
+
+<main class="conteudo">
+  <h1>Olá, {{ usuario.nome.split()[0] }}</h1>
+
+  <div class="vazio">
+    <p>Você ainda não tem leilões nem lances.</p>
+    <p>Quando o cadastro de quadros estiver pronto, você poderá leiloar uma obra ou dar lances nas de outros participantes por aqui.</p>
+  </div>
+</main>
+{% endblock %}

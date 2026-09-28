@@ -1,0 +1,257 @@
+:root {
+  --parede: #e4e7e3;
+  --moldura: #5b3b2b;
+  --moldura-luz: rgba(255, 255, 255, 0.16);
+  --passepartout: #f7f6f1;
+  --linha: #d3d0c4;
+  --tinta: #1f2a33;
+  --tinta-suave: #55616b;
+  --azul: #2b3f9e;
+  --azul-escuro: #22327e;
+  --erro: #a4262c;
+  --erro-fundo: #f9e6e6;
+  --info-fundo: #e3e9f7;
+
+  --serifa: "Libre Caslon Text", Georgia, "Times New Roman", serif;
+  --sans: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--parede);
+  color: var(--tinta);
+  font-family: var(--sans);
+  line-height: 1.5;
+}
+
+h1 {
+  margin: 0 0 1.25rem;
+  font-family: var(--serifa);
+  font-weight: 400;
+  font-size: 1.75rem;
+  line-height: 1.2;
+}
+
+/* ---------- Botões e campos ---------- */
+
+.botao {
+  display: inline-block;
+  padding: 0.7rem 1.25rem;
+  border: 0;
+  border-radius: 2px;
+  background: var(--azul);
+  color: #fff;
+  font: 600 1rem var(--sans);
+  cursor: pointer;
+}
+
+.botao:hover {
+  background: var(--azul-escuro);
+}
+
+.botao:focus-visible,
+a:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--azul);
+  outline-offset: 2px;
+}
+
+.botao-secundario {
+  padding: 0.4rem 0.9rem;
+  background: transparent;
+  color: var(--tinta);
+  border: 1px solid var(--tinta-suave);
+  font-weight: 500;
+  font-size: 0.9375rem;
+}
+
+.botao-secundario:hover {
+  background: rgba(31, 42, 51, 0.08);
+}
+
+.campo {
+  margin-bottom: 1.1rem;
+}
+
+.campo label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.campo input {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid #a9a698;
+  border-radius: 2px;
+  background: #fff;
+  color: var(--tinta);
+  font: 1rem var(--sans);
+}
+
+.campo input:focus-visible {
+  outline: 3px solid var(--azul);
+  outline-offset: 0;
+  border-color: var(--azul);
+}
+
+.aviso {
+  margin: 0 0 1.25rem;
+  padding: 0.65rem 0.85rem;
+  border-left: 4px solid;
+  font-size: 0.9375rem;
+}
+
+.aviso-erro {
+  background: var(--erro-fundo);
+  border-color: var(--erro);
+  color: var(--erro);
+}
+
+.aviso-info {
+  background: var(--info-fundo);
+  border-color: var(--azul);
+  color: var(--azul-escuro);
+}
+
+/* ---------- Login: quadro pendurado na parede ---------- */
+
+.parede {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.moldura {
+  width: min(100%, 25rem);
+  border: 16px solid var(--moldura);
+  background: var(--passepartout);
+  box-shadow:
+    inset 0 0 0 2px var(--moldura-luz),
+    inset 0 0 0 6px rgba(0, 0, 0, 0.22),
+    0 2px 0 rgba(255, 255, 255, 0.5),
+    0 22px 28px -14px rgba(40, 30, 20, 0.5);
+}
+
+.passepartout {
+  margin: 0;
+  padding: 2rem 1.75rem 2.1rem;
+  box-shadow: inset 0 0 0 1px var(--linha);
+}
+
+.placa {
+  width: min(100%, 17rem);
+  margin-top: 1.75rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--linha);
+  background: #fbfaf7;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+.placa p {
+  margin: 0;
+}
+
+.placa-titulo {
+  font-family: var(--serifa);
+  font-weight: 700;
+  font-size: 0.9375rem;
+}
+
+.placa-texto {
+  color: var(--tinta-suave);
+}
+
+.placa-teste {
+  margin-top: 0.6rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--linha);
+}
+
+.placa-teste summary {
+  cursor: pointer;
+  color: var(--azul);
+}
+
+.placa-teste ul {
+  margin: 0.4rem 0 0;
+  padding-left: 1.1rem;
+  word-break: break-all;
+}
+
+/* ---------- Área logada ---------- */
+
+.topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1.5rem;
+  background: var(--passepartout);
+  border-bottom: 1px solid var(--linha);
+}
+
+.topo-marca {
+  font-family: var(--serifa);
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: var(--tinta);
+  text-decoration: none;
+}
+
+.topo-usuario {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  font-size: 0.9375rem;
+}
+
+.topo-usuario form {
+  margin: 0;
+}
+
+.conteudo {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+}
+
+.vazio {
+  max-width: 34rem;
+  padding: 1.5rem;
+  border: 1px dashed #a9a698;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.vazio p {
+  margin: 0;
+}
+
+.vazio p + p {
+  margin-top: 0.5rem;
+  color: var(--tinta-suave);
+}
+
+@media (max-width: 30rem) {
+  .moldura {
+    border-width: 12px;
+  }
+  .passepartout {
+    padding: 1.5rem 1.15rem 1.75rem;
+  }
+  .topo {
+    padding: 0.75rem 1rem;
+  }
+}

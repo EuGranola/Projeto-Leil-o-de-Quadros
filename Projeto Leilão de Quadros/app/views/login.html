@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block titulo %}Entrar · Leilão de Quadros{% endblock %}
+{% block classe_body %}pagina-login{% endblock %}
+
+{% block corpo %}
+<main class="parede">
+  <section class="moldura" aria-labelledby="titulo-login">
+    <div class="passepartout">
+      <h1 id="titulo-login">Entrar</h1>
+
+      {% for categoria, mensagem in get_flashed_messages(with_categories=true) %}
+        <p class="aviso aviso-{{ categoria }}" role="{{ 'alert' if categoria == 'erro' else 'status' }}">{{ mensagem }}</p>
+      {% endfor %}
+
+      <form method="post" action="{{ url_for('auth.login', next=request.args.get('next')) }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <div class="campo">
+          <label for="email">E-mail</label>
+          <input id="email" name="email" type="email" value="{{ email or '' }}"
+                 autocomplete="username" required autofocus>
+        </div>
+
+        <div class="campo">
+          <label for="senha">Senha</label>
+          <input id="senha" name="senha" type="password"
+                 autocomplete="current-password" required>
+        </div>
+
+        <button type="submit" class="botao">Entrar</button>
+      </form>
+    </div>
+  </section>
+
+  <aside class="placa">
+    <p class="placa-titulo">Leilão de Quadros</p>
+    <p class="placa-texto">Acesso para participantes cadastrados.</p>
+
+    {% if contas_teste %}
+    <details class="placa-teste">
+      <summary>Contas de teste</summary>
+      <ul>
+        {% for conta in contas_teste %}
+        <li>{{ conta.email }} / {{ conta.senha }}</li>
+        {% endfor %}
+      </ul>
+    </details>
+    {% endif %}
+  </aside>
+</main>
+{% endblock %}
