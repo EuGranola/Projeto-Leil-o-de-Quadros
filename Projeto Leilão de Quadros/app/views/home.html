@@ -5,6 +5,11 @@
 {% block corpo %}
 <header class="topo">
   <a class="topo-marca" href="{{ url_for('home') }}">Leilão de Quadros</a>
+
+  <nav class="topo-nav">
+    <a href="{{ url_for('quadros.listar') }}">Quadros</a>
+  </nav>
+
   <div class="topo-usuario">
     <span>{{ usuario.nome }}</span>
     <form method="post" action="{{ url_for('auth.logout') }}">

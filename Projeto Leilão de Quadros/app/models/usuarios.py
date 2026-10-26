@@ -1,43 +1,50 @@
-"""Usuários de teste em memória.
+"""Acesso à tabela `usuarios` com SQL puro.
 
-Quando o banco de dados chegar, basta trocar o corpo das funções
-`buscar_por_email` e `buscar_por_id` por consultas reais. O restante
-da aplicação continua igual.
+REGRA DE OURO: nunca monte o SQL concatenando texto do usuário
+(f"... WHERE email = '{email}'"). Isso permite SQL injection.
+Use sempre os marcadores `?` e passe os valores numa tupla separada:
+o SQLite trata os valores como dados, nunca como código SQL.
 """
 
 from werkzeug.security import check_password_hash, generate_password_hash
 
-# Somente para desenvolvimento. As senhas em texto puro ficam aqui apenas
-# para gerar os hashes e para exibir a dica na tela de login em modo debug.
+from app.database import get_db
+
+# Dados usados só pelo comando `init-db` (e pela dica na tela de login em debug).
 CONTAS_TESTE = [
-    {"id": 1, "nome": "Ana Souza", "email": "ana@leilao.test", "senha": "ana123"},
-    {"id": 2, "nome": "Bruno Lima", "email": "bruno@leilao.test", "senha": "bruno123"},
-    {"id": 3, "nome": "Carla Mendes", "email": "carla@leilao.test", "senha": "carla123"},
+    {"nome": "Ana Souza", "email": "ana@leilao.test", "senha": "ana123"},
+    {"nome": "Bruno Lima", "email": "bruno@leilao.test", "senha": "bruno123"},
+    {"nome": "Carla Mendes", "email": "carla@leilao.test", "senha": "carla123"},
 ]
 
-# O que a aplicação realmente usa: nada de senha em texto puro, só o hash.
-_POR_ID = {
-    conta["id"]: {
-        "id": conta["id"],
-        "nome": conta["nome"],
-        "email": conta["email"],
-        "senha_hash": generate_password_hash(conta["senha"]),
-    }
-    for conta in CONTAS_TESTE
-}
-_POR_EMAIL = {usuario["email"]: usuario for usuario in _POR_ID.values()}
-
-# Hash usado quando o e-mail não existe, para que o tempo de resposta
-# seja parecido nos dois casos (e-mail inexistente x senha errada).
+# Usado quando o e-mail não existe, para o tempo de resposta ser parecido
+# nos dois casos (e-mail inexistente x senha errada).
 _HASH_FALSO = generate_password_hash("senha-falsa")
 
 
 def buscar_por_email(email):
-    return _POR_EMAIL.get(email)
+    return get_db().execute(
+        "SELECT id, nome, email, senha_hash FROM usuarios WHERE email = ?",
+        (email,),
+    ).fetchone()  # uma linha (sqlite3.Row) ou None
 
 
 def buscar_por_id(usuario_id):
-    return _POR_ID.get(usuario_id)
+    return get_db().execute(
+        "SELECT id, nome, email, senha_hash FROM usuarios WHERE id = ?",
+        (usuario_id,),
+    ).fetchone()
+
+
+def criar_usuario(nome, email, senha):
+    """Insere um usuário. Levanta sqlite3.IntegrityError se o e-mail já existir."""
+    db = get_db()
+    cursor = db.execute(
+        "INSERT INTO usuarios (nome, email, senha_hash) VALUES (?, ?, ?)",
+        (nome.strip(), email.strip().lower(), generate_password_hash(senha)),
+    )
+    db.commit()  # sem commit, o INSERT não é gravado de verdade
+    return cursor.lastrowid
 
 
 def autenticar(email, senha):

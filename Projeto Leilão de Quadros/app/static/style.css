@@ -222,6 +222,22 @@ summary:focus-visible {
   margin: 0;
 }
 
+.topo-nav {
+  display: flex;
+  gap: 1.25rem;
+  margin-right: auto;   /* empurra o menu para perto da marca */
+  margin-left: 1.5rem;
+}
+
+.topo-nav a {
+  color: var(--tinta);
+  text-decoration: none;
+  font-size: 0.9375rem;
+}
+
+.topo-nav a:hover {
+  text-decoration: underline;
+}
 .conteudo {
   max-width: 60rem;
   margin: 0 auto;

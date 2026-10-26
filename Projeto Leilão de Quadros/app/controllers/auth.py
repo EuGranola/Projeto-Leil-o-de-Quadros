@@ -118,3 +118,9 @@ def init_auth(app):
             # A dica de contas de teste só aparece com debug ligado.
             "contas_teste": CONTAS_TESTE if current_app.debug else [],
         }
+
+    quadros_bp = Blueprint("quadros", __name__, url_prefix="/quadros")
+
+    @quadros_bp.route("/")
+    def listar():
+    ...  # chama o model e devolve render_template("quadros/lista.html", quadros=...)
